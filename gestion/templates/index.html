@@ -1,0 +1,45 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Inicio | Mi Peluquería{% endblock %}
+
+{% block content %}
+<section class="hero"
+    style="display: flex; justify-content: center; align-items: center; height: 60vh; background: linear-gradient(45deg, #FF8E53, #FF6F61); color: white; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+    <div class="container">
+        <h2 style="font-size: 40px; margin-bottom: 20px;">Transforma tu Estilo</h2>
+        <p style="font-size: 20px;">Descubre los mejores servicios de peluquería, cortes, tratamientos y más.</p>
+        <button
+            style="background-color: #FF6F61; padding: 15px 30px; font-size: 18px; color: white; border: none; border-radius: 30px; cursor: pointer; transition: all 0.3s ease;">Ver
+            Servicios</button>
+    </div>
+</section>
+
+<section class="services container"
+    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+    <div class="service-card"
+        style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; padding: 20px;">
+        <img src="https://via.placeholder.com/400x250" alt="Corte de Pelo"
+            style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+        <h3 style="margin-top: 20px; font-size: 22px; color: #333;">Corte de Pelo</h3>
+        <p style="font-size: 16px; color: #666; margin-top: 10px;">Realizamos cortes personalizados según tu estilo y
+            preferencia.</p>
+    </div>
+    <div class="service-card"
+        style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; padding: 20px;">
+        <img src="https://via.placeholder.com/400x250" alt="Tratamiento Capilar"
+            style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+        <h3 style="margin-top: 20px; font-size: 22px; color: #333;">Tratamiento Capilar</h3>
+        <p style="font-size: 16px; color: #666; margin-top: 10px;">Nutre y cuida tu cabello con nuestros tratamientos
+            especializados.</p>
+    </div>
+    <div class="service-card"
+        style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; padding: 20px;">
+        <img src="https://via.placeholder.com/400x250" alt="Coloración"
+            style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
+        <h3 style="margin-top: 20px; font-size: 22px; color: #333;">Coloración</h3>
+        <p style="font-size: 16px; color: #666; margin-top: 10px;">Te ayudamos a elegir el color que mejor resalte tu
+            estilo único.</p>
+    </div>
+</section>
+{% endblock %}

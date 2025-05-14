@@ -1,0 +1,34 @@
+<!-- templates/form_visita.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Registrar Nueva Visita</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="cliente" class="form-label">Cliente</label>
+        <select class="form-control" id="cliente" name="cliente" required>
+            {% for cliente in clientes %}
+            <option value="{{ cliente.id }}" {% if cliente.id==visita.cliente.id %}selected{% endif %}>{{ cliente.nombre
+                }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="servicios" class="form-label">Servicios</label>
+        <select multiple class="form-control" id="servicios" name="servicios" required>
+            {% for servicio in servicios %}
+            <option value="{{ servicio.id }}" {% if servicio.id in visita.servicios.all|pluck:"id" %}selected{% endif
+                %}>{{ servicio.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha de Visita</label>
+        <input type="datetime-local" class="form-control" id="fecha" name="fecha" value="{{ visita.fecha|date:"
+            Y-m-d\TH:i" if visita else '' }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar Visita</button>
+</form>
+{% endblock %}
