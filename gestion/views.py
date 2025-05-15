@@ -113,7 +113,12 @@ def editar_visita(request, id):
             return redirect('visitas')
     else:
         form = VisitaForm(instance=visita)
-    return render(request, 'form_visita.html', {'form': form, 'visita': visita})
+    return render(request, 'form_visita.html', {
+        'form': form, 
+        'visita': visita, 
+        'clientes': Cliente.objects.filter(id=visita.cliente.id),
+ 		'servicios': Servicio.objects.all()
+})
 
 def eliminar_visita(request, id):
     visita = get_object_or_404(Visita, id=id)
