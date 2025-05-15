@@ -1,19 +1,44 @@
-<!-- templates/login.html -->
 {% extends "base.html" %}
 
 {% block title %}Iniciar Sesión | Mi Peluquería{% endblock %}
 
 {% block content %}
-<div class="login-container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <div class="login-box"
-        style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); width: 300px;">
-        <h2 style="text-align: center; margin-bottom: 20px;">Iniciar Sesión</h2>
-        <form method="POST" style="display: flex; flex-direction: column;">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit"
-                style="background-color: #FF6F61; padding: 10px; font-size: 16px; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px;">Ingresar</button>
-        </form>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+<div class="form-container login-container">
+    <div class="form-header">
+        <h2><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h2>
+        <a href="{% url 'index' %}" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
     </div>
+
+    <form method="post" class="content-form login-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_username">
+                <i class="fas fa-user"></i> Usuario
+            </label>
+            <input type="text" name="username" id="id_username" required placeholder="Nombre de usuario">
+            <small class="form-hint">Ingrese su nombre de usuario</small>
+        </div>
+
+        <div class="form-group">
+            <label for="id_password">
+                <i class="fas fa-lock"></i> Contraseña
+            </label>
+            <input type="password" name="password" id="id_password" required placeholder="Contraseña">
+            <small class="form-hint">Ingrese su contraseña</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+            </button>
+        </div>
+    </form>
 </div>
 {% endblock %}
