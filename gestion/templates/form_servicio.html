@@ -1,26 +1,70 @@
-<!-- templates/form_servicio.html -->
 {% extends 'base.html' %}
 
-{% block content %}
-<h2>{% if servicio %}Editar{% else %}Nuevo{% endif %} Servicio</h2>
+{% block title %}{% if servicio %}Editar{% else %}Nuevo{% endif %} Servicio{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="nombre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="nombre" name="nombre"
-            value="{{ servicio.nombre if servicio else '' }}" required>
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fas fa-cut"></i> {% if servicio %}Editar{% else %}Crear{% endif %} Servicio</h2>
+        <a href="{% url 'servicios' %}" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Volver al listado
+        </a>
     </div>
-    <div class="mb-3">
-        <label for="precio" class="form-label">Precio</label>
-        <input type="number" step="0.01" class="form-control" id="precio" name="precio"
-            value="{{ servicio.precio if servicio else '' }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="duracion_min" class="form-label">Duración (min)</label>
-        <input type="number" class="form-control" id="duracion_min" name="duracion_min"
-            value="{{ servicio.duracion_min if servicio else '' }}" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Guardar</button>
-</form>
+
+    <form method="post" class="content-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="nombre">
+                <i class="fas fa-tag"></i> Nombre del Servicio
+            </label>
+            <input type="text" id="nombre" name="nombre" value="{{ servicio.nombre|default:'' }}"
+                placeholder="Ej: Corte de cabello" required maxlength="100">
+            <small class="form-hint">Nombre descriptivo del servicio</small>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="precio">
+                    <i class="fas fa-dollar-sign"></i> Precio
+                </label>
+                <div class="input-with-symbol">
+                    <span class="symbol">$</span>
+                    <input type="number" id="precio" name="precio" value="{{ servicio.precio|default:'' }}" step="0.01"
+                        min="0" max="9999" placeholder="0.00" required>
+                </div>
+                <small class="form-hint">Precio en dólares</small>
+            </div>
+
+            <div class="form-group">
+                <label for="duracion_min">
+                    <i class="fas fa-clock"></i> Duración
+                </label>
+                <div class="input-with-symbol">
+                    <input type="number" id="duracion_min" name="duracion_min"
+                        value="{{ servicio.duracion_min|default:'30' }}" min="5" max="240" required>
+                    <span class="symbol">min</span>
+                </div>
+                <small class="form-hint">Duración aproximada</small>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">
+                <i class="fas fa-save"></i> {% if servicio %}Actualizar{% else %}Crear{% endif %} Servicio
+            </button>
+
+            {% if servicio %}
+            <a href="{% url 'eliminar_servicio' servicio.id %}" class="btn-delete">
+                <i class="fas fa-trash-alt"></i> Eliminar
+            </a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
 {% endblock %}

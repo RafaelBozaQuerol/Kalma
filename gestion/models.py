@@ -26,3 +26,7 @@ class Visita(models.Model):
 
     def __str__(self):
         return f"Visita de {self.cliente.nombre} el {self.fecha.strftime('%d/%m/%Y')}"
+    
+    def total(self):
+        total_precio = sum(servicio.precio for servicio in self.servicios.all())
+        return total_precio

@@ -102,7 +102,7 @@ def nueva_visita(request):
             return redirect('visitas')
     else:
         form = VisitaForm()
-    return render(request, 'form_visita.html', {'form': form})
+    return render(request, 'form_visita.html', {'form': form, 'clientes': Cliente.objects.all(), 'servicios': Servicio.objects.all()})
 
 def editar_visita(request, id):
     visita = get_object_or_404(Visita, id=id)

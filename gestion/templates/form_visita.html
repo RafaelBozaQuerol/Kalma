@@ -1,34 +1,91 @@
 <!-- templates/form_visita.html -->
 {% extends 'base.html' %}
 
-{% block content %}
-<h2>Registrar Nueva Visita</h2>
+{% block title %}{% if visita %}Editar{% else %}Nueva{% endif %} Visita{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="cliente" class="form-label">Cliente</label>
-        <select class="form-control" id="cliente" name="cliente" required>
-            {% for cliente in clientes %}
-            <option value="{{ cliente.id }}" {% if cliente.id==visita.cliente.id %}selected{% endif %}>{{ cliente.nombre
-                }}</option>
-            {% endfor %}
-        </select>
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fas fa-calendar-check"></i> {% if visita %}Editar{% else %}Registrar{% endif %} Visita</h2>
+        <a href="{% url 'visitas' %}" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Volver al listado
+        </a>
     </div>
-    <div class="mb-3">
-        <label for="servicios" class="form-label">Servicios</label>
-        <select multiple class="form-control" id="servicios" name="servicios" required>
-            {% for servicio in servicios %}
-            <option value="{{ servicio.id }}" {% if servicio.id in visita.servicios.all|pluck:"id" %}selected{% endif
-                %}>{{ servicio.nombre }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="fecha" class="form-label">Fecha de Visita</label>
-        <input type="datetime-local" class="form-control" id="fecha" name="fecha" value="{{ visita.fecha|date:"
-            Y-m-d\TH:i" if visita else '' }}" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Registrar Visita</button>
-</form>
+
+    <form method="post" class="content-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="cliente">
+                <i class="fas fa-user"></i> Cliente
+            </label>
+            <select class="form-control" id="cliente" name="cliente" required>
+                {% if visita %}
+                {% for cliente in clientes %}
+                <option value="{{ cliente.id }}">
+                    {{ cliente.nombre }}
+                </option>
+                {% endfor %}
+                {% else %}
+                {% for cliente in clientes %}
+                <option value="{{ cliente.id }}">
+                    {{ cliente.nombre }}
+                </option>
+                {% endfor %}
+                {% endif %}
+            </select>
+            <small class="form-hint">Seleccione el cliente que realiza la visita</small>
+        </div>
+
+        <div class="form-group">
+            <label for="servicios">
+                <i class="fas fa-cut"></i> Servicios
+            </label>
+            <select class="form-control" multiple id="servicios" name="servicios" required>
+                {% if visita %}
+                {% for servicio in servicios %}
+                <option value="{{ servicio.id }}" {% if servicio in visita.servicios.all %}selected{% endif %}>
+                    {{ servicio.nombre }} (${{ servicio.precio }})
+                </option>
+                {% endfor %}
+                {% else %}
+                {% for servicio in servicios %}
+                <option value="{{ servicio.id }}">
+                    {{ servicio.nombre }} (${{ servicio.precio }})
+                </option>
+                {% endfor %}
+                {% endif %}
+            </select>
+            <small class="form-hint">Seleccione uno o más servicios (Ctrl + Click para selección múltiple)</small>
+        </div>
+
+        <div class="form-group">
+            <label for="fecha">
+                <i class="fas fa-clock"></i> Fecha y Hora
+            </label>
+            <input type="datetime-local" id="fecha" name="fecha"
+                value="{% if visita %}{{ visita.fecha|date:'Y-m-d\TH:i' }}{% else %}{{ now|date:'Y-m-d\TH:i' }}{% endif %}"
+                required>
+            <small class="form-hint">Fecha y hora programada para la visita</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">
+                <i class="fas fa-save"></i> {% if visita %}Actualizar{% else %}Registrar{% endif %} Visita
+            </button>
+
+            {% if visita %}
+            <a href="{% url 'eliminar_visita' visita.id %}" class="btn-delete">
+                <i class="fas fa-trash-alt"></i> Eliminar
+            </a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}
