@@ -162,7 +162,7 @@
 <body>
     <!-- Header -->
     <header>
-        <h1>Bienvenido a Tu Peluquería</h1>
+        <h1>Bienvenido a {{empresa.nombre}}</h1>
 
         <!-- Enlaces de navegación y autenticación -->
         {% if request.user.is_authenticated %}
@@ -183,13 +183,19 @@
                 <i class="fas fa-calendar-check"></i>
                 <p><a href="{% url 'visitas' %}">Visitas</a></p>
             </div>
+            {% if not user_has_empresa %}
+            <div class="card">
+                <i class="fas fa-building"></i>
+                <p><a href="{% url 'crear_empresa' %}">Crear Empresa</a></p>
+            </div>
+            {% endif %}
         </div>
         <div class="auth-info">
             <p>Hola, {{ request.user.username }}! <a href="{% url 'logout' %}">Cerrar sesión</a></p>
         </div>
         {% else %}
         <div class="auth-info">
-            <p><a href="{% url 'login' %}">Iniciar sesión</a> <a href="{% url 'registro' %}">Registrarse</a></p>
+            <p><a href="{% url 'login' %}">Iniciar sesión</a></p>
         </div>
         {% endif %}
     </header>
@@ -201,7 +207,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Tu Peluquería | Todos los derechos reservados</p>
+        <p>&copy; 2025 {{empresa.nombre}} | Todos los derechos reservados</p>
     </footer>
 </body>
 

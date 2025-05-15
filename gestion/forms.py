@@ -1,7 +1,7 @@
 # gestion/forms.py
 
 from django import forms
-from .models import Cliente, Servicio, Visita
+from .models import Cliente, Servicio, Visita, Empresa
 
 class ClienteForm(forms.ModelForm):
     class Meta:
@@ -17,3 +17,8 @@ class VisitaForm(forms.ModelForm):
     class Meta:
         model = Visita
         fields = ['cliente', 'servicios', 'fecha']
+
+class EmpresaForm(forms.ModelForm):
+    class Meta:
+        model = Empresa
+        fields = ['nombre', 'direccion', 'telefono']     
